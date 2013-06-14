@@ -1,0 +1,35 @@
+templateContent: Hello, %s!
+
+
+# Database settings.
+database:
+
+  driverClass: org.postgresql.Driver
+
+  user: robi42
+  password:
+
+  url: jdbc:postgresql://localhost/dropwizard_helloworld
+
+
+# Server settings.
+server:
+  type: simple
+  applicationContextPath: /
+
+
+# Logging settings.
+logging:
+
+  # The default level of all loggers. Can be OFF, ERROR, WARN, INFO, DEBUG, TRACE, or ALL.
+  level: INFO
+
+  # Logger-specific levels.
+  loggers:
+
+    com.example.helloworld: DEBUG
+
+    org.hibernate.SQL: ALL
+
+  appenders:
+    - type: console

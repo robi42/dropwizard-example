@@ -1,0 +1,37 @@
+templateContent: Hello, %s!
+
+
+# Database settings.
+database:
+
+  driverClass: org.postgresql.Driver
+
+  user: geazpbspipdmne
+  password: ggc7ucUsVmU4DtRS4EAEbzcHdk
+
+  url: jdbc:postgresql://ec2-54-217-215-96.eu-west-1.compute.amazonaws.com/d8onbrtngo0rt2?ssl=true&sslfactory=org.postgresql.ssl.NonValidatingFactory
+
+
+# Server settings.
+server:
+  type: simple
+  applicationContextPath: /
+  connector:
+    type: http
+
+
+# Logging settings.
+logging:
+
+  # The default level of all loggers. Can be OFF, ERROR, WARN, INFO, DEBUG, TRACE, or ALL.
+  level: INFO
+
+  # Logger-specific levels.
+  loggers:
+
+    com.example.helloworld: INFO
+
+    org.hibernate.SQL: ALL
+
+  appenders:
+    - type: console
