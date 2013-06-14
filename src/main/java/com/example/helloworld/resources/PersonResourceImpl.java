@@ -8,16 +8,13 @@ import com.sun.jersey.api.NotFoundException;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
-import javax.ws.rs.Produces;
 import javax.ws.rs.WebApplicationException;
-import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.UUID;
 
 import static javax.ws.rs.core.Response.Status.NOT_FOUND;
 
 @Singleton
-@Produces(MediaType.APPLICATION_JSON)
 public class PersonResourceImpl implements PersonResource {
 
     private final PersonRepository repository;

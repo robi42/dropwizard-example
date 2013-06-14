@@ -8,8 +8,6 @@ import lombok.extern.slf4j.Slf4j;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
@@ -20,7 +18,6 @@ import static com.example.helloworld.HelloWorldGuiceModule.DEFAULT_TEMPLATE;
 
 @Slf4j
 @Singleton
-@Produces(MediaType.APPLICATION_JSON)
 public class HelloWorldResourceImpl implements HelloWorldResource {
 
     private final Template template;

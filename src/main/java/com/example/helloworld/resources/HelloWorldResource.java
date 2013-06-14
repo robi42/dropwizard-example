@@ -6,12 +6,14 @@ import com.example.helloworld.domain.Saying;
 import com.google.common.base.Optional;
 
 import javax.validation.Valid;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.QueryParam;
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
 
 import static java.util.concurrent.TimeUnit.DAYS;
 
+@Path("/hello-world")
+@Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_JSON)
 public interface HelloWorldResource {
 
     @GET

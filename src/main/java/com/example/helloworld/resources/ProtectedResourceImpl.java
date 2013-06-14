@@ -6,13 +6,10 @@ import lombok.extern.slf4j.Slf4j;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
 import java.util.concurrent.ExecutorService;
 
 @Slf4j
 @Singleton
-@Produces(MediaType.TEXT_PLAIN)
 public class ProtectedResourceImpl implements ProtectedResource {
 
     private final Greetable greetingService;
