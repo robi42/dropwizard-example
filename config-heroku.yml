@@ -3,13 +3,12 @@ templateContent: Hello, %s!
 
 # Database settings.
 database:
-
   driverClass: org.postgresql.Driver
 
-  user: geazpbspipdmne
-  password: ggc7ucUsVmU4DtRS4EAEbzcHdk
+  user: gbhzuaikmocqdq
+  password: 6hVRKHLWAEPHTQdiiv-MZS87_P
 
-  url: jdbc:postgresql://ec2-54-217-215-96.eu-west-1.compute.amazonaws.com/d8onbrtngo0rt2?ssl=true&sslfactory=org.postgresql.ssl.NonValidatingFactory
+  url: jdbc:postgresql://ec2-54-217-215-81.eu-west-1.compute.amazonaws.com/dapabifj7v05rp?ssl=true&sslfactory=org.postgresql.ssl.NonValidatingFactory
 
 
 # Server settings.

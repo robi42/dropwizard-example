@@ -3,7 +3,6 @@ templateContent: Hello, %s!
 
 # Database settings.
 database:
-
   driverClass: org.postgresql.Driver
 
   user: robi42
