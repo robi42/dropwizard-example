@@ -2,8 +2,8 @@ package com.example.helloworld.resources;
 
 import com.example.helloworld.db.PersonRepository;
 import com.example.helloworld.domain.Person;
-import com.google.inject.Inject;
 
+import javax.inject.Inject;
 import javax.inject.Singleton;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;

@@ -3,8 +3,9 @@ package com.example.helloworld.health;
 import com.codahale.metrics.health.HealthCheck;
 import com.example.helloworld.domain.Template;
 import com.google.common.base.Optional;
-import com.google.inject.Inject;
-import com.google.inject.name.Named;
+
+import javax.inject.Inject;
+import javax.inject.Named;
 
 import static com.example.helloworld.HelloWorldGuiceModule.DEFAULT_TEMPLATE;
 
