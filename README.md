@@ -15,9 +15,10 @@ To check out the example application run the following commands (BTW, make sure 
 
         java -jar target/dropwizard-example.jar server config.yml
 
- * Hint:
+ * Hints:
 
-        curl -u j.doe@example.com:secret http://localhost:8080/api/v1/people | python -mjson.tool
+        curl -i http://localhost:8080/api/v1/hello-world
+        curl -u j.doe@example.com:secret http://dw-example.herokuapp.com/api/v1/people | python -mjson.tool
 
  * IDE run config: app main class `com.example.helloworld.HelloWorldApplication` with args `server config.yml`
 
