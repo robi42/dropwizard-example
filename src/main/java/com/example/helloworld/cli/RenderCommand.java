@@ -38,7 +38,7 @@ public class RenderCommand extends ConfiguredCommand<HelloWorldConfiguration> {
             log.info("DEFAULT => {}", template.render(Optional.<String>absent()));
         }
 
-        for (String name : namespace.<String>getList("names")) {
+        for (final String name : namespace.<String>getList("names")) {
             for (int i = 0; i < 1000; i++) {
                 log.info("{} => {}", name, template.render(Optional.of(name)));
                 Thread.sleep(1000);

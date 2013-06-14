@@ -2,8 +2,8 @@ package com.example.helloworld.resources;
 
 import com.codahale.dropwizard.auth.Auth;
 import com.example.helloworld.domain.User;
-import com.google.inject.Inject;
 
+import javax.inject.Inject;
 import javax.inject.Singleton;
 import javax.ws.rs.Path;
 
