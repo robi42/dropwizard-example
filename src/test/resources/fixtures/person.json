@@ -1,13 +1,13 @@
 {
     "id": "9b89ec69-e844-4e88-ada6-5ee93e947a16",
-    "timeZonePreference": "GMT",
+    "timeZonePreference": "UTC",
     "createdAt": 1371208810893,
     "modifiedAt": null,
-    "birthday": "1970-01-01",
     "firstName": "John",
     "lastName": "Doe",
-    "favoriteNumber": null,
-    "emailAddress": null,
     "jobTitle": null,
+    "emailAddress": null,
+    "favoriteNumber": null,
+    "birthday": 315529200000,
     "gender": null
 }
