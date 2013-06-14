@@ -1,4 +1,6 @@
-# Running the Application
+# Dropwizard Example
+
+## Running the Application
 
 To check out the example application run the following commands (BTW, make sure to use JDK 7, and IntelliJ 12 FTW :) ).
 
@@ -23,7 +25,7 @@ To check out the example application run the following commands (BTW, make sure 
  * IDE run config: app main class `com.example.helloworld.HelloWorldApplication` with args `server config.yml`
 
 
-# Useful Resources
+## Useful Resources
 
  * <http://postgresapp.com/>
  * <https://toolbelt.heroku.com/>
@@ -32,7 +34,7 @@ To check out the example application run the following commands (BTW, make sure 
 This thing is based on: <https://github.com/codahale/dropwizard/tree/master/dropwizard-example>
 
 
-# Notes
+## Notes
 
  * REST API resources are mounted at: `/api/v1/` (default credentials: `j.doe@example.com:secret`)
  * Admin tools are mounted at: `/admin` (default credentials: `admin:admin`)
