@@ -4,10 +4,13 @@ import com.codahale.dropwizard.hibernate.UnitOfWork;
 import com.codahale.metrics.annotation.Timed;
 import com.example.helloworld.domain.Person;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
 import java.util.List;
 
+@Path("/people")
+@Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_JSON)
 public interface PeopleResource {
 
     @POST

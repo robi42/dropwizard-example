@@ -5,12 +5,9 @@ import com.example.helloworld.domain.Person;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
 import java.util.List;
 
 @Singleton
-@Produces(MediaType.APPLICATION_JSON)
 public class PeopleResourceImpl implements PeopleResource {
 
     private final PersonRepository repository;
