@@ -26,6 +26,7 @@ public class PersonResourceImpl implements PersonResource {
     }
 
 
+    @Override
     public Person getPerson(final UUID personId) {
         final Optional<Person> person = repository.findById(personId);
 

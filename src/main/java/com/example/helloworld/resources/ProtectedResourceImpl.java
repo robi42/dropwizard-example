@@ -23,10 +23,12 @@ public class ProtectedResourceImpl implements ProtectedResource {
     }
 
 
+    @Override
     public String showSecret(final User user) {
         return String.format("Hey there, %s. You know the secret!", user.getName());
     }
 
+    @Override
     public String not() {
         log.info(greetingService.greet());
 

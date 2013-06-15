@@ -34,10 +34,12 @@ public class HelloWorldResourceImpl implements HelloWorldResource {
     }
 
 
+    @Override
     public Saying sayHello(final Optional<String> name) {
         return new Saying(counter.incrementAndGet(), template.render(name));
     }
 
+    @Override
     public void receiveHello(final Saying saying) {
         final Future<String> task = executorService.submit(new Callable<String>() {
             @Override
