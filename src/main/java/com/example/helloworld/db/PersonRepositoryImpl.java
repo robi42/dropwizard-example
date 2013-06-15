@@ -25,6 +25,7 @@ public class PersonRepositoryImpl extends AbstractDAO<Person>
     }
 
 
+    @Override
     public Person create(final Person person) {
         person.setId(randomUUID());
         person.setCreatedAt(DateTime.now(UTC));
@@ -32,10 +33,12 @@ public class PersonRepositoryImpl extends AbstractDAO<Person>
         return persist(person);
     }
 
+    @Override
     public Optional<Person> findById(final UUID id) {
         return Optional.fromNullable(get(id));
     }
 
+    @Override
     public List<Person> findAll() {
         final Query query = currentSession().createQuery("select p from Person p order by createdAt desc");
 //        final Query query = currentSession().createSQLQuery("SELECT * FROM people ORDER BY created_at DESC")

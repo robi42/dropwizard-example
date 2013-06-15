@@ -19,10 +19,12 @@ public class PeopleResourceImpl implements PeopleResource {
     }
 
 
+    @Override
     public Person createPerson(final Person person) {
         return repository.create(person);
     }
 
+    @Override
     public List<Person> listPeople() {
         return repository.findAll();
     }
