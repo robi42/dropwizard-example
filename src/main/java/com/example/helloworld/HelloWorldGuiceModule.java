@@ -15,11 +15,10 @@ import com.google.inject.AbstractModule;
 import com.google.inject.name.Names;
 import org.hibernate.SessionFactory;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.LinkedBlockingQueue;
-
-import static com.google.common.collect.Lists.newArrayList;
 
 public class HelloWorldGuiceModule extends AbstractModule {
 
@@ -46,7 +45,7 @@ public class HelloWorldGuiceModule extends AbstractModule {
                 .workQueue(new LinkedBlockingQueue<Runnable>(100))
                 .build();
 
-        this.bundles = newArrayList(bundles);
+        this.bundles = Arrays.asList(bundles);
     }
 
 
