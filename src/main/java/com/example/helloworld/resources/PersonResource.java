@@ -15,6 +15,6 @@ import java.util.UUID;
 public interface PersonResource {
 
     @GET
-    @UnitOfWork
+    @UnitOfWork(readOnly = true)
     Person getPerson(@PathParam("personId") UUID personId);
 }
