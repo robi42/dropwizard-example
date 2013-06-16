@@ -7,7 +7,8 @@ import com.codahale.dropwizard.lifecycle.setup.LifecycleEnvironment;
 import com.codahale.dropwizard.logging.LoggingFactory;
 import com.codahale.dropwizard.setup.Environment;
 import com.example.helloworld.HelloWorldConfiguration;
-import com.example.helloworld.domain.Person;
+import com.google.common.collect.ImmutableList;
+import com.google.common.reflect.ClassPath;
 import liquibase.Liquibase;
 import liquibase.database.jvm.JdbcConnection;
 import liquibase.resource.ClassLoaderResourceAccessor;
@@ -19,8 +20,11 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
 
-import java.util.Arrays;
+import javax.persistence.Entity;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.Properties;
 
 import static ch.qos.logback.classic.Level.ERROR;
@@ -40,7 +44,9 @@ public abstract class AbstractTransactionalTests {
 
     private final Liquibase liquibase;
 
-    private static HibernateBundle<HelloWorldConfiguration> hibernateBundle = createHibernateBundle();
+    private static List<Class<?>> entities = new ArrayList<>();
+
+    private static HibernateBundle<HelloWorldConfiguration> hibernateBundle;
     private static Environment environment;
     private static Properties jdbcProperties = new Properties();
     private static DataSourceFactory databaseConfig;
@@ -48,6 +54,10 @@ public abstract class AbstractTransactionalTests {
 
     @BeforeClass
     public static void initialize() throws Exception {
+        scanForEntities();
+
+        hibernateBundle = createHibernateBundle();
+
         environment = mock(Environment.class);
         when(environment.lifecycle()).thenReturn(new LifecycleEnvironment());
 
@@ -59,7 +69,6 @@ public abstract class AbstractTransactionalTests {
 
         setUpTestDatabase(setupSessionFactory);
     }
-
 
     private static void setUpTestDatabase(final SessionFactory sessionFactory) {
         final Session session = sessionFactory.openSession();
@@ -74,16 +83,36 @@ public abstract class AbstractTransactionalTests {
     public AbstractTransactionalTests() throws Exception {
         databaseConfig.setUrl(jdbcProperties.getProperty("url", JDBC_BASE_URL + TEST_DATABASE_NAME));
 
-        sessionFactory = new SessionFactoryFactory().build(hibernateBundle, environment, databaseConfig,
-                Arrays.<Class<?>>asList(Person.class));
+        sessionFactory = new SessionFactoryFactory().build(hibernateBundle, environment, databaseConfig, entities);
 
         liquibase = new Liquibase("migrations.xml", new ClassLoaderResourceAccessor(),
                 new JdbcConnection(((SessionImpl) sessionFactory.openSession()).connection()));
     }
 
 
+    private static void scanForEntities() throws IOException, ClassNotFoundException {
+        final String packageName = AbstractTransactionalTests.class.getPackage().getName().replace("db", "domain");
+        final ImmutableList<ClassPath.ClassInfo> classInfos = ClassPath.from(ClassLoader.getSystemClassLoader())
+                .getTopLevelClasses(packageName).asList();
+
+        for (final ClassPath.ClassInfo classInfo : classInfos) {
+            final Class<?> entityCandidate = Class.forName(classInfo.getName());
+
+            if (entityCandidate.isAnnotationPresent(Entity.class)) {
+                entities.add(entityCandidate);
+            }
+        }
+
+        if (entities.size() == 0) {
+            throw new RuntimeException("No entity found");
+        }
+    }
+
+
     private static HibernateBundle<HelloWorldConfiguration> createHibernateBundle() {
-        return new HibernateBundle<HelloWorldConfiguration>(Person.class) {
+        final Class<?>[] additionalEntities = createAdditionalEntities();
+
+        return new HibernateBundle<HelloWorldConfiguration>(entities.get(0), additionalEntities) {
             @Override
             protected void configure(final Configuration configuration) {
                 configuration.setProperty(CURRENT_SESSION_CONTEXT_CLASS, "thread");
@@ -94,6 +123,24 @@ public abstract class AbstractTransactionalTests {
                 return configuration.getDatabase();
             }
         };
+    }
+
+    private static Class<?>[] createAdditionalEntities() {
+        final Class<?>[] additionalEntities;
+
+        if (entities.size() > 1) {
+            additionalEntities = new Class[entities.size() - 1];
+            int index = 0;
+
+            for (final Class<?> entity : entities.subList(1, entities.size() - 1)) {
+                additionalEntities[index] = entity;
+                index++;
+            }
+        } else {
+            additionalEntities = new Class[]{entities.get(0)};
+        }
+
+        return additionalEntities;
     }
 
 
