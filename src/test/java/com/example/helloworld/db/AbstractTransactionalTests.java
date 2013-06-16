@@ -112,9 +112,7 @@ public abstract class AbstractTransactionalTests {
 
 
     private static HibernateBundle<HelloWorldConfiguration> createHibernateBundle() {
-        final Class<?>[] additionalEntities = createAdditionalEntities();
-
-        return new HibernateBundle<HelloWorldConfiguration>(entities.get(0), additionalEntities) {
+        return new HibernateBundle<HelloWorldConfiguration>(entities.get(0), createAdditionalEntities()) {
             @Override
             protected void configure(final Configuration configuration) {
                 configuration.setProperty(CURRENT_SESSION_CONTEXT_CLASS, "thread");
