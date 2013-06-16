@@ -169,8 +169,9 @@ public abstract class AbstractTransactionalTests {
 
     @After
     public void tearDown() throws Exception {
-        sessionFactory.getCurrentSession().flush();
-        sessionFactory.getCurrentSession().getTransaction().commit();
+        final Session currentSession = sessionFactory.getCurrentSession();
+        currentSession.flush();
+        currentSession.getTransaction().commit();
         sessionFactory.getCurrentSession().close();
 
         liquibase.dropAll();
