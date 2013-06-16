@@ -40,22 +40,18 @@ public abstract class AbstractTransactionalTests {
 
     private final Liquibase liquibase;
 
-    private static HibernateBundle<HelloWorldConfiguration> hibernateBundle;
+    private static HibernateBundle<HelloWorldConfiguration> hibernateBundle = createHibernateBundle();
     private static Environment environment;
-    private static Properties jdbcProperties;
+    private static Properties jdbcProperties = new Properties();
     private static DataSourceFactory databaseConfig;
 
 
     @BeforeClass
     public static void initialize() throws Exception {
-        hibernateBundle = createHibernateBundle();
-
         environment = mock(Environment.class);
         when(environment.lifecycle()).thenReturn(new LifecycleEnvironment());
 
-        jdbcProperties = new Properties();
         jdbcProperties.load(AbstractTransactionalTests.class.getClassLoader().getResourceAsStream("jdbc.properties"));
-
         databaseConfig = createDatabaseConfig(jdbcProperties);
 
         final SessionFactory setupSessionFactory = new SessionFactoryFactory()
