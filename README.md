@@ -4,7 +4,7 @@
 
 To check out the example application run the following commands (BTW, make sure to use JDK 7, and IntelliJ 12 FTW :) ).
 
- * To package the example run:
+ * To package the example run (and adapt `src/test/resources/jdbc.properties` DB credentials; e.g., user `postgres`...):
 
         mvn clean package
 

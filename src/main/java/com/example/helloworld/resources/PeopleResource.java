@@ -18,7 +18,7 @@ public interface PeopleResource {
     Person createPerson(Person person);
 
     @GET
-    @UnitOfWork
+    @UnitOfWork(readOnly = true)
     @Timed(name = "get-people-requests")
     List<Person> listPeople();
 }
