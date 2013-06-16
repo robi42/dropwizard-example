@@ -14,9 +14,10 @@ public class TestPersonRepository extends AbstractTransactionalTests {
     private static final String ID = "id";
     private static final String CREATED_AT = "createdAt";
 
-    private final PersonRepository repository = new PersonRepositoryImpl(sessionFactory);
+    private final PersonRepository repository;
 
     public TestPersonRepository() throws Exception {
+        repository = new PersonRepositoryImpl(sessionFactory);
     }
 
 
