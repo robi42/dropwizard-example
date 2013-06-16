@@ -28,6 +28,8 @@ import java.util.List;
 import java.util.Properties;
 
 import static ch.qos.logback.classic.Level.ERROR;
+import static com.google.common.reflect.ClassPath.ClassInfo;
+import static java.lang.ClassLoader.getSystemClassLoader;
 import static org.hibernate.cfg.AvailableSettings.CURRENT_SESSION_CONTEXT_CLASS;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -92,10 +94,10 @@ public abstract class AbstractTransactionalTests {
 
     private static void scanForEntities() throws IOException, ClassNotFoundException {
         final String packageName = AbstractTransactionalTests.class.getPackage().getName().replace("db", "domain");
-        final ImmutableList<ClassPath.ClassInfo> classInfos = ClassPath.from(ClassLoader.getSystemClassLoader())
+        final ImmutableList<ClassInfo> classInfos = ClassPath.from(getSystemClassLoader())
                 .getTopLevelClasses(packageName).asList();
 
-        for (final ClassPath.ClassInfo classInfo : classInfos) {
+        for (final ClassInfo classInfo : classInfos) {
             final Class<?> entityCandidate = Class.forName(classInfo.getName());
 
             if (entityCandidate.isAnnotationPresent(Entity.class)) {
