@@ -7,7 +7,7 @@ import com.codahale.dropwizard.lifecycle.setup.LifecycleEnvironment;
 import com.codahale.dropwizard.logging.LoggingFactory;
 import com.codahale.dropwizard.setup.Environment;
 import com.example.helloworld.HelloWorldConfiguration;
-import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.reflect.ClassPath;
 import liquibase.Liquibase;
 import liquibase.database.jvm.JdbcConnection;
@@ -44,10 +44,10 @@ public abstract class AbstractTransactionalTests {
 
     protected final SessionFactory sessionFactory;
 
+    private final Session liquibaseSession;
     private final Liquibase liquibase;
 
     private static List<Class<?>> entities = new ArrayList<>();
-
     private static HibernateBundle<HelloWorldConfiguration> hibernateBundle;
     private static Environment environment;
     private static Properties jdbcProperties = new Properties();
@@ -78,6 +78,7 @@ public abstract class AbstractTransactionalTests {
         session.createSQLQuery("DROP DATABASE IF EXISTS " + TEST_DATABASE_NAME).executeUpdate();
         session.createSQLQuery("CREATE DATABASE " + TEST_DATABASE_NAME).executeUpdate();
         session.flush();
+        session.close();
         sessionFactory.close();
     }
 
@@ -87,17 +88,19 @@ public abstract class AbstractTransactionalTests {
 
         sessionFactory = new SessionFactoryFactory().build(hibernateBundle, environment, databaseConfig, entities);
 
+        liquibaseSession = sessionFactory.openSession();
         liquibase = new Liquibase("migrations.xml", new ClassLoaderResourceAccessor(),
-                new JdbcConnection(((SessionImpl) sessionFactory.openSession()).connection()));
+                new JdbcConnection(((SessionImpl) liquibaseSession).connection()));
     }
 
 
     private static void scanForEntities() throws IOException, ClassNotFoundException {
-        final String packageName = AbstractTransactionalTests.class.getPackage().getName().replace("db", "domain");
-        final ImmutableList<ClassInfo> classInfos = ClassPath.from(getSystemClassLoader())
-                .getTopLevelClasses(packageName).asList();
+        final String domainPackageName = AbstractTransactionalTests.class.getPackage().getName()
+                .replace("db", "domain");
+        final ImmutableSet<ClassInfo> domainPackageClassInfos = ClassPath.from(getSystemClassLoader())
+                .getTopLevelClasses(domainPackageName);
 
-        for (final ClassInfo classInfo : classInfos) {
+        for (final ClassInfo classInfo : domainPackageClassInfos) {
             final Class<?> entityCandidate = Class.forName(classInfo.getName());
 
             if (entityCandidate.isAnnotationPresent(Entity.class)) {
@@ -112,7 +115,7 @@ public abstract class AbstractTransactionalTests {
 
 
     private static HibernateBundle<HelloWorldConfiguration> createHibernateBundle() {
-        return new HibernateBundle<HelloWorldConfiguration>(entities.get(0), createAdditionalEntities()) {
+        return new HibernateBundle<HelloWorldConfiguration>(entities.get(0), createAdditionalEntitiesContainer()) {
             @Override
             protected void configure(final Configuration configuration) {
                 configuration.setProperty(CURRENT_SESSION_CONTEXT_CLASS, "thread");
@@ -125,7 +128,7 @@ public abstract class AbstractTransactionalTests {
         };
     }
 
-    private static Class<?>[] createAdditionalEntities() {
+    private static Class<?>[] createAdditionalEntitiesContainer() {
         final Class<?>[] additionalEntities;
 
         if (entities.size() > 1) {
@@ -168,8 +171,10 @@ public abstract class AbstractTransactionalTests {
     public void tearDown() throws Exception {
         sessionFactory.getCurrentSession().flush();
         sessionFactory.getCurrentSession().getTransaction().commit();
+        sessionFactory.getCurrentSession().close();
 
         liquibase.dropAll();
+        liquibaseSession.flush();
         liquibase.getDatabase().close();
 
         sessionFactory.close();
