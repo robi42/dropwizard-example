@@ -19,8 +19,8 @@ To check out the example application run the following commands (BTW, make sure 
 
  * Hints:
 
-        curl -i http://localhost:8080/api/v1/hello-world
-        curl -u j.doe@example.com:secret http://dw-example.herokuapp.com/api/v1/people | python -mjson.tool
+        curl -i localhost:8080/api/v1/hello-world
+        curl -u j.doe@example.com:secret dw-example.herokuapp.com/api/v1/people | python -mjson.tool
 
  * IDE run config: app main class `com.example.helloworld.HelloWorldApplication` with args `server config.yml`
 
