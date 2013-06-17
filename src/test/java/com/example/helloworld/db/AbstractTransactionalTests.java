@@ -109,7 +109,7 @@ public abstract class AbstractTransactionalTests {
         }
 
         if (entities.size() == 0) {
-            throw new RuntimeException("No entity found");
+            throw new RuntimeException(String.format("No entity found in `%s`", domainPackageName));
         }
     }
 
