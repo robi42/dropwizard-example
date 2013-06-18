@@ -60,7 +60,7 @@ public class HelloWorldGuiceModule extends AbstractModule {
 
         bind(Greetable.class).to(HelloWorldService.class);
 
-        bind(PersonRepository.class).to(PersonRepositoryImpl.class);
+        bind(PersonRepository.class).to(PersonRepositoryImpl.class).asEagerSingleton();
 
         bind(HelloWorldResource.class).to(HelloWorldResourceImpl.class);
         bind(PeopleResource.class).to(PeopleResourceImpl.class);
